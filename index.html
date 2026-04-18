@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成邮箱</title>
+    <style>
+        #copyMessage {
+            color: green;
+            font-weight: bold;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>一次性生成50个邮箱</h1>
+    <button onclick="generateEmails()">生成邮箱</button>
+    <button onclick="copyEmails()">复制所有邮箱</button>
+    <ul id="emailList"></ul>
+    <div id="copyMessage">所有邮箱已复制到剪贴板！</div>
+
+    <script>
+        function generateRandomString(length) {
+            const chars = 'abcdefghijklmnopqrstuvwxyz';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function generateEmails() {
+            const emailList = document.getElementById('emailList');
+            emailList.innerHTML = ''; // 清空现有列表
+
+            for (let i = 0; i < 50; i++) {
+                const prefix = generateRandomString(5);
+                const email = prefix + '@584136.xyz';
+                const listItem = document.createElement('li');
+                listItem.textContent = email;
+                emailList.appendChild(listItem);
+            }
+        }
+
+        function copyEmails() {
+            const emailList = document.getElementById('emailList');
+            const emails = Array.from(emailList.getElementsByTagName('li'))
+                                 .map(li => li.textContent)
+                                 .join('\n');
+            
+            // 创建一个textarea元素用于复制
+            const textarea = document.createElement('textarea');
+            textarea.value = emails;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            // 显示成功提示
+            const copyMessage = document.getElementById('copyMessage');
+            copyMessage.style.display = 'block';
+
+            // 设置3秒后自动隐藏提示
+            setTimeout(() => {
+                copyMessage.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
