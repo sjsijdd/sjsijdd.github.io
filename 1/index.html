@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间加法计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>时间加法计算器</h1>
+    <p>请选择起始时间，并输入要加的分钟数：</p>
+    
+    <!-- 输入字段 -->
+    <label for="timeInput">起始时间（格式：HH:mm）：</label>
+    <input type="time" id="timeInput" value="12:00">
+    
+    <label for="minutesInput">加上多少分钟：</label>
+    <input type="number" id="minutesInput" value="50" min="1">
+    
+    <button onclick="calculateTime()">计算结果</button>
+    
+    <h2>结果：</h2>
+    <p id="result">请选择时间并点击计算。</p>
+
+    <script>
+        function calculateTime() {
+            // 获取输入的时间和分钟数
+            const timeInput = document.getElementById("timeInput").value;
+            const minutesInput = parseInt(document.getElementById("minutesInput").value);
+
+            // 解析时间（例如 12:30）
+            const [hours, minutes] = timeInput.split(":").map(Number);
+
+            // 创建一个新的 Date 对象，表示当天的指定时间
+            let date = new Date();
+            date.setHours(hours);
+            date.setMinutes(minutes);
+            date.setSeconds(0);  // 保证秒数为0
+
+            // 将分钟数添加到时间中
+            date.setMinutes(date.getMinutes() + minutesInput);
+
+            // 获取新的时间字符串
+            const newTime = date.toTimeString().split(" ")[0]; // 获取HH:mm:ss格式的时间
+
+            // 显示计算结果
+            document.getElementById("result").textContent = `加上 ${minutesInput} 分钟后的时间是：${newTime}`;
+        }
+    </script>
+</body>
+</html>
